@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "Assistente de Acessibilidade (Validado)",
+  "version": "1.0",
+  "description": "Uma extensão focada em leitura, feedback e personalização.",
+  
+  "permissions": [
+    "scripting",    
+    "activeTab",    
+    "storage"       
+  ],
+
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon.png" 
+  },
+
+  "background": {
+    "service_worker": "background.js"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content_script.js"],
+      "css": ["styles.css"],
+      "all_frames": true  
+    }
+  ],
+
+  "commands": {
+    "toggle-focus-mode": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+L",
+        "mac": "Command+Shift+L"
+      },
+      "description": "Alternar Modo de Leitura Focada"
+    }
+  }
+}
