@@ -1,6 +1,5 @@
 // background.js
 
-// 5. Comandos Alternativos
 // Adicionamos 'async' para poder usar 'await' e 'try...catch'
 chrome.commands.onCommand.addListener(async (command) => {
   if (command !== "toggle-focus-mode") {
@@ -19,7 +18,6 @@ chrome.commands.onCommand.addListener(async (command) => {
       });
     } catch (e) {
       // 4. Se falhar (ex: página protegida), apenas avisa no console
-      // e não deixa o erro "quebrar" a extensão.
       console.warn(
         "Não foi possível enviar mensagem para a aba. (Isso é normal em páginas protegidas como chrome://)",
         e.message

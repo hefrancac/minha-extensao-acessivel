@@ -14,67 +14,127 @@
   visibility: visible !important; 
 }
 
-/* --- 3. Controle Personalizável (Temas) --- */
-html[data-assistente-theme="dark"] {
+/* --- 3. Controle Personalizável (Temas de Filtro) --- */
+html[data-assistente-theme="dark"]:not([data-is-youtube]) body {
   background-color: #1a1a1a !important;
   filter: invert(1) hue-rotate(180deg) !important;
 }
-html[data-assistente-theme="dark"] img,
-html[data-assistente-theme="dark"] video {
+html[data-assistente-theme="dark"]:not([data-is-youtube]) body img,
+html[data-assistente-theme="dark"]:not([data-is-youtube]) body video {
    filter: invert(1) hue-rotate(180deg) !important;
 }
-html[data-assistente-theme="sepia"] {
+html[data-assistente-theme="sepia"]:not([data-is-youtube]) body {
   filter: sepia(1) !important;
 }
 
-/* --- 👇 NOVOS CONTROLES DE FONTE 👇 --- */
-
-/* 3b. Aumentar Espaçamento (Recomendado) */
+/* --- 3b. Aumentar Espaçamento --- */
 html[data-assistente-spacing="increased"] body {
   letter-spacing: 0.05em !important;
   line-height: 1.6 !important;
 }
 
-/* 3c. Todas Maiúsculas (Não Recomendado) */
+/* 3c. Todas Maiúsculas */
 html[data-assistente-transform="uppercase"] body {
   text-transform: uppercase !important;
 }
 
-/* --- 1. Modo Leitura Focada (ARTIGOS) --- */
-html.assistente-leitura-focada-ativa * {
+/* 3d. Texto em Negrito (ADICIONADO) */
+html[data-assistente-weight="bold"] body {
+  font-weight: bold !important;
+}
+
+/* --- 1. Modo Leitura Focada (ARTIGOS - READABILITY) --- */
+
+/* Esconde a página original... */
+html.assistente-leitura-focada-ativa body > *:not(#assistente-readability-overlay) {
   visibility: hidden !important;
+  overflow: hidden !important;
 }
-html.assistente-leitura-focada-ativa .assistente-conteudo-principal,
-html.assistente-leitura-focada-ativa .assistente-conteudo-principal *,
-html.assistente-leitura-focada-ativa #assistente-feedback-visual {
-  visibility: visible !important;
+
+/* Fundo do overlay... */
+#assistente-readability-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 2147483646; 
+  overflow-y: auto; 
+  transition: background-color 0.3s ease;
 }
-html.assistente-leitura-focada-ativa .assistente-conteudo-principal {
-  display: block !important;
-  position: absolute !important; 
-  top: 0 !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  width: 90% !important;
-  max-width: 800px !important;
-  margin: 40px 0 !important; 
-  padding: 40px !important;
-  float: none !important;
-  background: white !important;
-  color: black !important;
-  border: 1px solid #ccc !important;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1) !important;
-  z-index: 999999 !important;
-  
-  /* Garante que os estilos de fonte também se apliquem aqui */
-  letter-spacing: inherit !important;
-  line-height: inherit !important;
-  text-transform: inherit !important;
+
+/* Container do artigo... */
+#assistente-readability-overlay .readability-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 50px;
+  background: #fff;
+  color: #111;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
-html.assistente-leitura-focada-ativa,
-html.assistente-leitura-focada-ativa body {
-  background: #f0f0f0 !important;
-  overflow-y: scroll !important;
+
+/* Estilos do conteúdo... */
+#assistente-readability-overlay h1 {
+  font-size: 2.5em !important;
+  color: #000 !important;
+}
+#assistente-readability-overlay .readability-byline {
+  font-style: italic;
+  color: #555;
+}
+#assistente-readability-overlay .readability-content {
+  font-size: 1.2em !important;
+  line-height: 1.7 !important;
+  color: #222 !important;
+}
+#assistente-readability-overlay .readability-content p {
+  margin-bottom: 1.2em;
+}
+#assistente-readability-overlay .readability-content img,
+#assistente-readability-overlay .readability-content figure {
+  max-width: 100%;
+  height: auto;
+  margin: 20px 0;
+}
+
+/* TEMA ESCURO (OVERLAY) */
+html[data-assistente-theme="dark"] #assistente-readability-overlay {
+  background: rgba(10, 10, 10, 0.9);
+}
+html[data-assistente-theme="dark"] .readability-container {
+  background: #252525;
+  color: #e0e0e0;
+}
+html[data-assistente-theme="dark"] .readability-container h1 { color: #f0f0f0 !important; }
+html[data-assistente-theme="dark"] .readability-container .readability-byline { color: #999; }
+html[data-assistente-theme="dark"] .readability-container .readability-content { color: #e0e0e0 !important; }
+
+/* TEMA SÉPIA (OVERLAY) */
+html[data-assistente-theme="sepia"] #assistente-readability-overlay {
+  background: rgba(100, 80, 60, 0.85);
+}
+html[data-assistente-theme="sepia"] .readability-container {
+  background: #fbf0d9;
+  color: #5b4636;
+}
+html[data-assistente-theme="sepia"] .readability-container h1 { color: #3b2b23 !important; }
+html[data-assistente-theme="sepia"] .readability-container .readability-byline { color: #7a6353; }
+html[data-assistente-theme="sepia"] .readability-container .readability-content { color: #5b4636 !important; }
+
+/* ESTILOS DE FONTE (OVERLAY) */
+html[data-assistente-spacing="increased"] .readability-content {
+  letter-spacing: 0.05em !important;
+  line-height: 1.8 !important;
+}
+html[data-assistente-transform="uppercase"] .readability-content {
+  text-transform: uppercase !important;
+}
+/* ADICIONADO */
+html[data-assistente-weight="bold"] .readability-content {
+  font-weight: bold !important;
 }
 
 
@@ -102,7 +162,7 @@ html.assistente-google-focada #center_col {
 }
 
 
-/* --- 1c. Modo Leitura Focada (YOUTUBE) --- */
+/* --- 1c. Modo Leitura Focada (YOUTUBE /watch) --- */
 html.assistente-youtube-focada #masthead-container,
 html.assistente-youtube-focada #guide-content,
 html.assistente-youtube-focada ytd-rich-grid-renderer,

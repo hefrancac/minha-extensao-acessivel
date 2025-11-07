@@ -6,8 +6,8 @@ const fontSizeSlider = document.getElementById('font-size');
 const focusToggle = document.getElementById('focus-toggle');
 const letterSpacingToggle = document.getElementById('letter-spacing-toggle');
 const textTransformToggle = document.getElementById('text-transform-toggle');
+const fontWeightToggle = document.getElementById('font-weight-toggle'); // ADICIONADO
 
-// O novo span que mostra o valor
 const fontSizeValue = document.getElementById('font-size-value');
 
 // --- 2. Funções de Comunicação ---
@@ -29,21 +29,22 @@ function sendToggleCommand(tabId) {
 
 // --- 3. Lógica de Carregamento do Popup ---
 async function loadPopupState() {
+  // ADICIONADO 'fontWeight'
   const settings = await chrome.storage.sync.get([
-    'theme', 'fontSize', 'letterSpacing', 'textTransform'
+    'theme', 'fontSize', 'letterSpacing', 'textTransform', 'fontWeight'
   ]);
   
   // Tema e Fonte
   const theme = settings.theme || 'default';
   document.getElementById(`theme-${theme}`).checked = true;
-  
   const fontSize = settings.fontSize || 100;
   fontSizeSlider.value = fontSize;
-  fontSizeValue.textContent = fontSize + '%'; // Atualiza o texto
+  fontSizeValue.textContent = fontSize + '%';
 
   // Toggles de Fonte
   letterSpacingToggle.checked = settings.letterSpacing || false;
   textTransformToggle.checked = settings.textTransform || false;
+  fontWeightToggle.checked = settings.fontWeight || false; // ADICIONADO
 
   // Estado do Modo Focado
   try {
@@ -65,12 +66,9 @@ themeRadios.forEach(radio => {
   });
 });
 
-// AQUI ESTÁ A MUDANÇA:
-// 'input' atualiza o texto visualmente
 fontSizeSlider.addEventListener('input', (e) => {
   fontSizeValue.textContent = e.target.value + '%';
 });
-// 'change' salva no storage (só quando solta o mouse)
 fontSizeSlider.addEventListener('change', (e) => {
   chrome.storage.sync.set({ fontSize: e.target.value });
 });
@@ -91,7 +89,11 @@ letterSpacingToggle.addEventListener('change', (e) => {
 textTransformToggle.addEventListener('change', (e) => {
   chrome.storage.sync.set({ textTransform: e.target.checked });
 });
-// FIM DOS NOVOS LISTENERS
+
+// ADICIONADO
+fontWeightToggle.addEventListener('change', (e) => {
+  chrome.storage.sync.set({ fontWeight: e.target.checked });
+});
 
 // Inicia tudo
 document.addEventListener('DOMContentLoaded', loadPopupState);
